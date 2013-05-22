@@ -77,8 +77,8 @@ function loadFlux(type) {
 // pas gérer le chargement automatique des parials.
 function _mu2proxy(path, options, callback) {
 	// bric-à-brac pour gérer mon pseudo proxy
+	mu.root = app.get('views');
 	if(app.get('views') == "../PhotoFlux/views/") {
-		mu.root = app.get('views');
 		path = path.substr(mu.root.length);
 	}
 
