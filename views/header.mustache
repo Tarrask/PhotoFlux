@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PhotoFlux</title>
+	<meta name="keywords" content="facebook banner banière ribbon badge image flux stream update" />
+	<link rel="stylesheet" href="{{rootUrl}}/static/css/flux.css" />
+	<script src="{{rootUrl}}/static/lib/jquery-1.9.1.min.js" type="text/javascript"></script>
+	{{#infiniteScroll}}
+	<script src="{{rootUrl}}/static/lib/jquery.infinitescroll.js" type="text/javascript"></script>
+	{{/infiniteScroll}}
+	<script>
+	{{#infiniteScroll}}
+		$(function() {
+			$('div.content').infinitescroll({
+				loading: {
+					img: "{{rootUrl}}/static/img/loading.gif",
+					msgText: "<em>Chargement d'encore plus d'images</em>",
+					finishedMsg: "<em>Félicitation, vous avez admiré tous les photos de ce flux</em>"
+				},
+				navSelector  : "nav.pager",			// selector for the paged navigation (it will be hidden)
+				nextSelector : "nav.pager a.next",	// selector for the NEXT link (to page 2)
+				itemSelector : "ul.flux",			// selector for all items you'll retrieve
+				debug: true,
+				
+		  });
+		});
+	{{/infiniteScroll}}
+		function bodyBlack() {
+			document.body.className="black";
+		}
+		function bodyWhite() {
+			document.body.className="white";
+		}
+	</script>
+</head>
+<body class="black">
+{{#development}}<div style="position: fixed; top:0; left: 50%; margin: 1em auto auto -100px; padding: 0.5em 0; width: 200px; text-align: center; background: darkred;">En developpement</div>{{/development}}
+<header>
+	<h1><a href="{{rootUrl}}">PhotoFlux</a></h1>
+</header>
+{{> navigation.mustache}}
+<div id="control">
+	<a href="#" onclick="bodyWhite()">blanc</a> / <a href="#" onclick="bodyBlack()">black</a>
+</div>
+<div class="grid"></div>
+<div class="content">
+<!-- /header -->

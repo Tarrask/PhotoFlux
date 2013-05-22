@@ -14,7 +14,7 @@ var cookieSecret = process.env.SECRET || "afv932uvrnjqi4rh9";
 app.engine('mustache', _mu2proxy);// rendu mustache. @see:_mu2proxy
 app.use(express.logger('dev'));
 app.use(express.favicon());
-app.use("/static", express.directory('./static/'));
+app.use("/static", express.static(__dirname + '/static/'));
 app.use(express.cookieParser());
 app.use(express.session({
 	secret: cookieSecret,
@@ -23,7 +23,7 @@ app.use(express.session({
 
 app.param('fid', loadFlux('fid'));
 
-app.get("/", function(req, res) { res.send("photoFlux vhost running"); });
+app.get("/", function(req, res) { res.render("index.mustache"); });
 app.get("/f/:fid", dummy);
 if(process.env.NODE_ENV == "development") {
 	app.get("/test", dummy);
@@ -76,13 +76,18 @@ function loadFlux(type) {
 // mustache disponible avec consolidate. mustache ne semble
 // pas gérer le chargement automatique des parials.
 function _mu2proxy(path, options, callback) {
-	
+	// bric-à-brac pour gérer mon pseudo proxy
+	if(app.get('views') == "../PhotoFlux/views/") {
+		mu.root = app.get('views');
+		path = path.substr(mu.root.length);
+	}
+
 	// on recompile les templates à chaque fois durant le development
 	if (app.get('env') == 'development') {
 		debug("clearing mustache cache");
 		mu.clearCache();
 	}
-	
+	debug("mu paths", mu.root, app.get('views'), path);
 	var stream = mu.compileAndRender(path, options);
 	var html = "";
 	stream.on('data', function(data) {
