@@ -14,6 +14,7 @@ var cookieSecret = process.env.SECRET || "afv932uvrnjqi4rh9";
 app.engine('mustache', _mu2proxy);// rendu mustache. @see:_mu2proxy
 app.use(express.logger('dev'));
 app.use(express.favicon());
+app.use("/static", express.directory('./static/'));
 app.use(express.cookieParser());
 app.use(express.session({
 	secret: cookieSecret,
@@ -21,18 +22,13 @@ app.use(express.session({
 }));
 
 app.param('fid', loadFlux('fid'));
-app.param('uid', loadFlux('uid'));
-app.param('pid', loadFlux('pid'));
 
 app.get("/", function(req, res) { res.send("photoFlux vhost running"); });
-app.get("/test", dummy);
+app.get("/f/:fid", dummy);
 if(process.env.NODE_ENV == "development") {
+	app.get("/test", dummy);
 	app.get("/_session", function(req, res) { res.end(JSON.stringify(req.session, null, 2));});
 }
-app.get("/test/:fid", dummy);
-app.get("/f/:fid", dummy);
-app.get("/p/:pid", dummy);
-app.get("/u/:uid", dummy);
 
 // listen to the PORT given to us in the environment
 var port = process.env.PORT || 3000;
@@ -102,5 +98,5 @@ function _mu2proxy(path, options, callback) {
 
 function dummy(req, res) {
 	res.set('Content_type', 'text/html');
-	res.send('<html><body><h1>Dummy page</h1><p>'+req.headers.host+req.originalUrl+'</p><pre>'+util.inspect(req.params)+'</pre><pre>'+util.inspect(req.session)+'</pre></body></html>');
+	res.send('<html><body><h1>Dummy page</h1><p>'+req.headers.host+req.originalUrl+'</p><h3>params</h3><pre>'+util.inspect(req.params)+'</pre><h3>session</h3><pre>'+util.inspect(req.session)+'</pre></body></html>');
 }
