@@ -76,9 +76,10 @@ function loadFlux(type) {
 // mustache disponible avec consolidate. mustache ne semble
 // pas gérer le chargement automatique des parials.
 function _mu2proxy(path, options, callback) {
+	mu.root = 'views';
 	// bric-à-brac pour gérer mon pseudo proxy
-	mu.root = app.get('views');
 	if(app.get('views') == "../PhotoFlux/views/") {
+		mu.root = app.get('views');
 		path = path.substr(mu.root.length);
 	}
 
