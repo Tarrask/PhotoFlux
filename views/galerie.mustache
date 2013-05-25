@@ -1,0 +1,20 @@
+{{>header.mustache}}
+{{#validate}}
+<div class="validate">
+	<h1>N'oubliez pas de valider votre galerie</h1>
+	<a href="/albumSelection">Retour</a> <a href="/fluxCreation">créer la galerie</a>
+</div>
+{{/validate}}
+<h3>{{user.name}}</h3>
+
+{{>pager.mustache}}
+<ul class="flux">
+{{#photos}}
+	<li><figure>
+		<a href="{{link}}"><img width="{{width}}" height="{{height}}" src="{{source}}" alt="{{name}}" /></a>
+		{{#name}}<figcaption style="max-width: {{width}}px"><p>{{name}}</p></figcaption>{{/name}}
+	</figure></li>
+{{/photos}}
+</ul>
+{{>pager.mustache}}
+{{>footer.mustache}}

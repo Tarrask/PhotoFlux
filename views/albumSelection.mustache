@@ -1,0 +1,26 @@
+{{>header.mustache}}
+<article>
+	<h3>2ème étape, selection des albums</h3>
+	{{#pages}}
+	<p>Vous avez accès à des pages. Cliquez dessus si vous voulez créer une galerie pour elles.</p>
+	<ul>
+	{{#list}}
+		<li><a href="/albumsSelection/{{pid}}">{{name}}</a></li>
+	{{/list}}
+	</ul>
+	{{/pages}}
+	<p>Selectionnez les albums que vous voulez voir apparaitre dans votre galerie</p>
+	<form method="POST">
+	<input type="submit" />
+	<div class="albumSelect">
+	{{#albums}}
+		<div class="tile">
+			<input type="checkbox" name="album" id="{{id}}" value="{{id}}" {{#selected}}checked="checked"{{/selected}} />
+			<label for="{{id}}">{{#cover_photo}}<img src="{{picture}}" alt="{{name}}" />{{/cover_photo}}<p>{{name}}</p></label>
+		</div>
+	{{/albums}}
+	</ul>
+	<input type="submit" />
+	</form>
+</article>
+{{>footer.mustache}}
