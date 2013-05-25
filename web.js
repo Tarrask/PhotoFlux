@@ -58,6 +58,9 @@ app.get("/login",					fbConnected, login);
 app.get("/logout",					logout);
 app.get("/f/:fid",					updateFluxIfNeeded, renderFlux);
 app.get("/f/:fid/:page",			renderFlux);
+app.get("/confidentiality",			render('confidentiality.mustache'));
+app.get("/eula",					render('eula.mustache'));
+app.get("/support",					render('support.mustache'));
 
 // development stuff
 if(process.env.NODE_ENV == "development") {
@@ -357,6 +360,12 @@ function renderFlux(req, res, next) {
 			}
 		});
 	res.render("galerie.mustache", data);
+}
+
+function render(template) {
+	return function(req, res) {
+		res.render(template, defaultData(req));
+	};
 }
 
 // Mise-à-jour du flux auprès de facebook, si l'interval de mise-à-jour est passée
