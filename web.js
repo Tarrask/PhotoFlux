@@ -1,3 +1,9 @@
+if(process.env.NODETIME_ACCOUNT_KEY) {
+  require('nodetime').profile({
+    accountKey: process.env.NODETIME_ACCOUNT_KEY,
+    appName: 'My Application Name' // optional
+  });
+}
 
 var express 	= require('express'),
 	app 		= module.exports = express(),
@@ -17,6 +23,7 @@ var imagesPerPage = 5;
 	
 // Session configuration
 var cookieSecret = process.env.SECRET || "afv932uvrnjqi4rh9";
+
 
 app.engine('mustache', mu2proxy);// rendu mustache. @see:mu2proxy
 app.param('fid', loadFlux);
@@ -44,7 +51,7 @@ app.use(app.router);
 
 ///////////////////////////////////////////////////////
 // Routes
-app.get("/",						function(req, res) { res.render("index.mustache", defaultData(req)); });
+app.get("/",						render("index.mustache", {title: "PhotoFlux | Page d'accueil"}));
 app.get("/letsgo",					function(req, res) { res.render("letsgo.mustache", defaultData(req)); });
 app.get("/loginWithFacebook",		fbConnected, loginWithFacebook);
 app.get("/albumsSelection",	  		fbConnected, albumsSelectionGet);
@@ -362,9 +369,9 @@ function renderFlux(req, res, next) {
 	res.render("galerie.mustache", data);
 }
 
-function render(template) {
+function render(template, data) {
 	return function(req, res) {
-		res.render(template, defaultData(req));
+		res.render(template, defaultData(req, data));
 	};
 }
 
@@ -436,11 +443,13 @@ function loadFlux(req, res, next, fid) {
 
 // Renseigne les données pour mustache communes à toutes les pages.
 function defaultData(req, data) {
+	console.log(req.headers);
 	data = data || {};
 	data.staticUrl		= data.staticUrl	|| "/static";
 	data.originalUrl	= data.originalUrl	|| req.originalUrl;
 	data.user			= data.user 		|| req.getAuthDetails().user;
 	data.development	= process.env.NODE_ENV == 'development';
+	data.title			= data.title		|| "PhotoFlux | " + req.url.substring(1);
 	return data;
 }
 
