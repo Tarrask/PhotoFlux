@@ -1,4 +1,14 @@
-body { margin: 0; padding: 0; font-family: sans-serif; }
+@font-face { font-family: "SegoeUI";
+    font-style: normal;
+    font-weight: normal;
+    src: url("../fonts/SegoeUI.eot") format("embedded-opentype"), url("../fonts/SegoeUI.woff") format("woff"), url("../fonts/SegoeUI.ttf") format("truetype"), url("../fonts/SegoeUI.svg") format("svg");
+}
+@font-face { font-family: "SegoeUIBold";
+    font-style: normal;
+    font-weight: normal;
+    src: url("../fonts/SegoeUIBold.eot") format("embedded-opentype"), url("../fonts/SegoeUIBold.woff") format("woff"), url("../fonts/SegoeUIBold.ttf") format("truetype"), url("../fonts/SegoeUIBold.svg") format("svg");
+}
+body { margin: 0; padding: 0; font-family: SegoeUI,Arial,sans-serif; }
 body.black {
 	color: #fdfdfd;
 	background: #333333;
@@ -8,6 +18,9 @@ body.white {
 	color: black;
 	background: #eeeeee;
 	background: -moz-radial-gradient(center, ellipse cover, #e5e5e5 0%, #cdcdcd 100%) fixed; /* FF3.6+ */
+}
+body.black p {
+	color: #dddddd;
 }
 
 body .grid {
@@ -78,6 +91,14 @@ footer {
 	background: transparent;
 	position: relative;
 	bottom: 0;
+	text-align: center;
+}
+footer p {
+	margin: 0;
+	padding: 0;
+	font-size: 80%;
+	letter-spacing:1px;
+	line-height: 1.4em;
 }
 
 nav.pager {
