@@ -68,6 +68,9 @@ app.get("/f/:fid/:page",			renderFlux);
 app.get("/confidentiality",			render('confidentiality.mustache'));
 app.get("/eula",					render('eula.mustache'));
 app.get("/support",					render('support.mustache'));
+app.get("/robots.txt",				function(req, res) {
+	res.sendfile("views/robots.txt", {root: __dirname}); 
+});
 
 // development stuff
 if(process.env.NODE_ENV == "development") {
